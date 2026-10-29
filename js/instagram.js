@@ -16,51 +16,21 @@ const IGP={home:'<path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6.5H9V21H4
  tag:'<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17c.8-2.4 2.5-3.5 4.5-3.5s3.7 1.1 4.5 3.5"/>'};
 const ic=(n,s=26,f)=>`<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="${f?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IGP[n]}</svg>`;
 const igAv=(s,src,name)=>{const u=src===undefined?IGD().avatar:src,n=name||IGD().name||'?';return `<i class="igav" style="width:${s}px;height:${s}px;font-size:${Math.round(s*.42)}px;${u?`background-image:url(${u})`:''}">${u?'':E(n[0])}</i>`};
-const igProfileAvatar=(s)=>`<i class="igav igprofile-icon" style="width:${s}px;height:${s}px"><svg viewBox="0 0 24 24" width="${Math.round(s*.58)}" height="${Math.round(s*.58)}" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="white"/><path d="M4.5 21c.4-4.3 3.3-7 7.5-7s7.1 2.7 7.5 7" fill="white"/></svg></i>`;
-const igBar=(t,d)=>`<div class="igbar${d?' d':''}">${[['home','home'],['reels','reels'],['dm','send'],['search','search']].map(([k,i])=>`<span class="${t==k?'on':''}" onclick="igGo('${k}')">${ic(i,28,t==k&&k!='search')}</span>`).join('')}<span class="${t=='me'?'on':''}" onclick="igGo('me')">${igProfileAvatar(34)}</span></div>`;
+const igPerson=(s)=>`<i class="igav igperson" style="width:${s}px;height:${s}px"><svg viewBox="0 0 24 24" width="${Math.round(s*.58)}" height="${Math.round(s*.58)}" viewBox="0 0 24 24" fill="white" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></i>`;
+const igBar=(t,d)=>`<div class="igbar${d?' d':''}">${[['home','home'],['reels','reels'],['dm','send'],['search','search']].map(([k,i])=>`<span class="${t==k?'on':''}" onclick="igGo('${k}')">${ic(i,28,t==k&&k!='search')}</span>`).join('')}<span class="${t=='me'?'on':''}" onclick="igGo('me')">${igPerson(34)}</span></div>`;
 function igMount(t,dark,html){A.innerHTML=`<div class="igw${dark?' d':''}">${html}${igBar(t,dark)}</div>`;setDark(!dark)}
 function igGo(k){igTab=k;({home:igHome,reels:igReels,dm:igDm,search:igSearch,me:igMe})[k]()}
 R.ig=function(){igGo('home')};
 
 const igPost=p=>`<div class="igp"><div class="igph">${igAv(34,p.avatar,p.user)}<b>${E(p.user)}</b><span>⋯</span></div><div class="igpi"${p.img?` style="background-image:url(${p.img})"`:''}></div><div class="igpa">${ic('heart')}${ic('comment')}${ic('repost')}${ic('send')}<span style="margin-left:auto">${ic('bookmark')}</span></div><div class="igpc">${p.likes!=null?`<div><b>좋아요 ${p.likes}개</b></div>`:''}<div><b>${E(p.user)}</b> ${E(p.caption||'')}</div></div></div>`;
 function igHome(){const d=IGD();igMount('home',false,`<div class="igtop"><span class="igbk" onclick="home()">‹</span><b class="igwm">Instagram</b><span class="igtr">${ic('bookmark',26)}${ic('heart',26)}</span></div><div class="igbody"><div class="igst"><div class="igs"><div class="igring none">${igAv(66)}<em>+</em></div><small>내 스토리</small></div>${(d.stories||[]).map(s=>`<div class="igs"><div class="igring">${igAv(66,s.avatar,s.name)}</div><small>${E(s.name)}</small></div>`).join('')}</div>${(d.feed||[]).map(igPost).join('')}</div>`)}
-function igReels(){const r=IGD().reels||[];igMount('reels',true,`<div class="igrl">${r.map(x=>`<div class="igr"${x.img?` style="background-image:url(${x.img})"`:''} onclick="igTap(this,event)">${x.video?`<video src="${x.video}" muted loop playsinline webkit-playsinline preload="auto" controls></video><span class="igsnd">🔇</span>`:''}<div class="ira">${[['heart',x.likes],['comment',x.comments],['repost',x.reposts],['send',x.shares],['bookmark',x.saves]].map(([n,c])=>`<div>${ic(n,30)}<small>${c??''}</small></div>`).join('')}<div>${ic('menu',24)}</div></div><div class="irb"><div class="iru">${igAv(36,x.avatar,x.user)}<b>${E(x.user)}</b><span class="igfl">팔로우</span></div><p>${E(x.caption||'')}</p></div></div>`).join('')}</div><div class="igtop d"><span class="igbk" onclick="home()">‹</span><span class="igtabs2"><b>릴스</b><span>친구</span></span><span style="width:34px"></span></div>`);setDark(false);igPlay()}
+function igReels(){const r=IGD().reels||[];igMount('reels',true,`<div class="igrl">${r.map(x=>`<div class="igr"${x.img?` style="background-image:url(${x.img})"`:''} onclick="igTap(this)">${x.video?`<video src="${x.video}" muted loop playsinline preload="metadata"></video><span class="igsnd">🔇</span>`:''}<div class="ira">${[['heart',x.likes],['comment',x.comments],['repost',x.reposts],['send',x.shares],['bookmark',x.saves]].map(([n,c])=>`<div>${ic(n,30)}<small>${c??''}</small></div>`).join('')}<div>${ic('menu',24)}</div></div><div class="irb"><div class="iru">${igAv(36,x.avatar,x.user)}<b>${E(x.user)}</b><span class="igfl">팔로우</span></div><p>${E(x.caption||'')}</p></div></div>`).join('')}</div><div class="igtop d"><span class="igbk" onclick="home()">‹</span><span class="igtabs2"><b>릴스</b><span>친구</span></span><span style="width:34px"></span></div>`);setDark(false);igPlay()}
 function igDm(){const d=IGD();igMount('dm',false,`<div class="igtop"><span class="igbk" onclick="home()">‹</span><b class="igun">${E(d.username)} ⌄</b><span style="width:34px;text-align:right">${ic('compose',26)}</span></div><div class="igbody"><div class="igsr">${ic('search',20)}<span>검색</span></div><div class="ignotes"><div class="ign"><div class="igaw">${igAv(66)}<span class="nb">${E(d.myNote||'내 메모')}</span></div><small>내 메모</small></div>${(d.notes||[]).map(n=>`<div class="ign"><div class="igaw">${igAv(66,n.avatar,n.name)}<span class="nb">${E(n.text||'')}</span></div><small>${E(n.name)}</small></div>`).join('')}</div><div class="igsh"><b>메시지</b><span>요청</span></div>${(d.threads||[]).map((x,i)=>`<div class="igt" onclick="igChat(${i})">${igAv(56,x.avatar,x.name)}<div class="igtm"><div class="${x.unread?'bd':''}">${E(x.name)}${x.pinned?' 📌':''}</div><small class="${x.unread?'bd':''}">${E(x.preview||'')}${x.time?' · '+E(x.time):''}${x.muted?' 🔕':''}</small></div>${x.unread?'<i class="igu"></i>':''}</div>`).join('')}</div>`)}
 function igChat(i){const x=IGD().threads[i];x.unread=0;A.innerHTML=`<div class="igw"><div class="igtop"><span class="igbk" onclick="igGo('dm')">‹</span>${igAv(34,x.avatar,x.name)}<b style="margin:0 auto 0 10px">${E(x.name)}</b></div><div class="igbody igchat" style="padding:10px 14px 100px">${(x.msgs||[]).map(m=>m.date?`<div class="tm">${E(m.date)}</div>`:`<div class="igbub${m.me?' me':''}">${E(m.t)}</div>`).join('')}</div><div class="igin"><div>메시지 보내기...</div></div></div>`;setDark(true);const c=document.querySelector('.igchat');if(c)c.scrollTop=1e5}
 function igSearch(){const e=IGD().explore||[];igMount('search',false,`<div class="igtop"><div class="igsr" style="flex:1;margin:0 10px 0 0">${ic('search',20)}<span>검색</span></div><b class="igcancel" onclick="home()">취소</b></div><div class="igbody"><div class="igg">${e.map(x=>`<div style="background-image:url(${x.img})"></div>`).join('')}</div></div>`)}
-function igMe(){const d=IGD(),p=d.posts||[];igMount('me',false,`<div class="igtop"><span class="igbk" onclick="home()">‹</span><b class="igun"></b><span style="width:34px;text-align:right">${ic('menu',26)}</span></div><div class="igbody"><div class="igpf"><div class="igring none big">${igProfileAvatar(88)}<em>+</em></div><div class="igstat"><div><b>${p.length}</b><small>게시물</small></div><div><b>${d.followers||0}</b><small>팔로워</small></div><div><b>${d.following||0}</b><small>팔로잉</small></div></div></div><div class="igbio"><b></b><div></div></div><div class="igbtns"><span>프로필 편집</span><span>프로필 공유</span><span class="s">＋👤</span></div><div class="ighl"><div class="igh"><div class="igring none">＋</div><small>New</small></div>${(d.highlights||[]).map(h=>`<div class="igh"><div class="igring none">${igAv(60,h.img,h.title)}</div><small>${E(h.title)}</small></div>`).join('')}</div><div class="igtabs"><span class="on">${ic('grid',24)}</span><span>${ic('repost',24)}</span><span>${ic('tag',24)}</span></div><div class="igg">${p.map(x=>`<div style="background-image:url(${x.img})"></div>`).join('')}</div></div>`)}
+function igMe(){const d=IGD(),p=d.posts||[];igMount('me',false,`<div class="igtop"><span class="igbk" onclick="home()">‹</span><span class="igun" aria-hidden="true"></span><span style="width:34px;text-align:right">${ic('menu',26)}</span></div><div class="igbody"><div class="igpf"><div class="igring none big">${igPerson(88)}<em>+</em></div><div class="igstat"><div><b>${p.length}</b><small>게시물</small></div><div><b>${d.followers||0}</b><small>팔로워</small></div><div><b>${d.following||0}</b><small>팔로잉</small></div></div></div><div class="igbio"><div>${E(d.bio||'')}</div></div><div class="igbtns"><span>프로필 편집</span><span>프로필 공유</span><span class="s">＋👤</span></div><div class="ighl"><div class="igh"><div class="igring none">＋</div><small>New</small></div>${(d.highlights||[]).map(h=>`<div class="igh"><div class="igring none">${igAv(60,h.img,h.title)}</div><small>${E(h.title)}</small></div>`).join('')}</div><div class="igtabs"><span class="on">${ic('grid',24)}</span><span>${ic('repost',24)}</span><span>${ic('tag',24)}</span></div><div class="igg">${p.map(x=>`<div style="background-image:url(${x.img})"></div>`).join('')}</div></div>`)}
 /* 릴스 영상: 화면에 보이는 릴스만 자동 재생(무음), 영상을 누르면 소리 켜기/끄기 */
-function igTap(r,ev){
- const v=r.querySelector('video');if(!v)return;
- const b=r.querySelector('.igsnd');
- // 릴스 본문을 누르면 재생/일시정지, 음소거 버튼을 누르면 소리만 전환
- if(ev && ev.target && ev.target.closest && ev.target.closest('.igsnd')){
-   v.muted=!v.muted;
-   if(b)b.textContent=v.muted?'🔇':'🔊';
-   if(v.paused)v.play().catch(()=>{});
-   return;
- }
- if(v.paused){v.play().catch(()=>{v.controls=true;});}
- else {v.pause();}
-}
-function igPlay(){
- const rl=document.querySelector('.igrl');if(!rl)return;
- const videos=rl.querySelectorAll('video');
- videos.forEach(v=>{
-   v.muted=true;
-   v.playsInline=true;
-   v.setAttribute('playsinline','');
-   v.setAttribute('webkit-playsinline','');
-   v.addEventListener('error',()=>{v.controls=true;});
- });
- if(!window.IntersectionObserver){
-   videos.forEach(v=>v.play().catch(()=>{v.controls=true;}));
-   return;
- }
- const o=new IntersectionObserver(es=>es.forEach(e=>{
-   const v=e.target.querySelector('video');if(!v)return;
-   if(e.isIntersecting){v.play().catch(()=>{v.controls=true;});}
-   else{v.pause();}
- }),{root:rl,threshold:.6});
- rl.querySelectorAll('.igr').forEach(r=>o.observe(r));
-}
+function igTap(r){const v=r.querySelector('video');if(!v)return;v.muted=!v.muted;const b=r.querySelector('.igsnd');if(b)b.textContent=v.muted?'🔇':'🔊';if(v.paused)v.play().catch(()=>{})}
+function igPlay(){const rl=document.querySelector('.igrl');if(!rl||!window.IntersectionObserver)return;
+ const o=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector('video');if(!v)return;if(e.isIntersecting)v.play().catch(()=>{});else{v.pause();v.currentTime=0}}),{root:rl,threshold:.6});
+ rl.querySelectorAll('.igr').forEach(r=>o.observe(r))}
