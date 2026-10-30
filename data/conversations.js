@@ -2,6 +2,7 @@
 D.kk=[
  {
   "name": "쥬💕",
+  "img": "assets/images/ju-profile.jpeg",
   "at": "오후 9:12",
   "unread": 0,
   "preview": "ㅋㅋㅋㅋㅋ",
