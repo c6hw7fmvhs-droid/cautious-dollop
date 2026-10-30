@@ -12,5 +12,5 @@ D.instagram={
  threads:[],      /* [{name, avatar, preview, time, unread, pinned, muted, msgs:[{date}|{t, me}]}] */
  explore:[],      /* [{img}] */
  highlights:[],   /* [{title, img}] */
- posts:[]         /* [{img}] */
+ posts:[{imgs:["assets/images/post1_1.jpg","assets/images/post1_2.jpg"],caption:"",date:"2026년 10월 2일"}]  /* [{imgs:[사진 경로들], caption, date, user(선택), likes(선택)}] */
 };
