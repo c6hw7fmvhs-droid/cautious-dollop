@@ -16,6 +16,8 @@ $('#ind').onclick=()=>lockOn?unlock():home();
 const hd=(t,back)=>`<div class="hd">${back?`<b onclick="${back}">‹ 뒤로</b>`:''}<span>${t}</span></div>`;
 const av=n=>`<div class="av">${E(n[0])}</div>`;
 const R={};
+/* 고정된 메시지 옆 핀 아이콘 */
+const PIN='<svg class="pin" viewBox="0 0 24 24" width="14" height="14" fill="#8e8e93"><path d="M8 2.5h8a1 1 0 0 1 1 1v1.2c0 .5-.3.9-.7 1.2-.5.3-.8.9-.8 1.5v2.4h4.5v2.2H4v-2.2h4.5V7.4c0-.6-.3-1.2-.8-1.5-.4-.3-.7-.7-.7-1.2V3.5a1 1 0 0 1 1-1zM11 14h2v7.500h-2z"/></svg>';
 function unlock(){if(!lockOn)return;lockOn=false;$('#lock').classList.add('up');setDark(false);setTimeout(startEvents,2500)}
 $('#lock').onclick=unlock;
 badges();
