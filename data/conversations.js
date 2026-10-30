@@ -18,12 +18,12 @@ D.kk=[
   "members": 4
  },
  {
-  "name": "과 단톡방",
-  "at": "오후 7:15",
+  "name": "윤재인",
+  "at": "오후 5:26",
   "unread": 0,
-  "preview": "공지 확인해 주세요.",
+  "preview": "오늘 뭐 해?",
   "msgs": [],
-  "members": 24
+  "img": "assets/images/default-profile.jpeg"
  },
  {
   "name": "걸스네버다이",
@@ -46,7 +46,8 @@ D.kk=[
   "at": "오전 11:48",
   "unread": 0,
   "preview": "네 알겠습니다!",
-  "msgs": []
+  "msgs": [],
+  "img": "assets/images/default-profile.jpeg"
  },
  {
   "name": "요기요고객센터",
